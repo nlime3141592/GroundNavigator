@@ -71,7 +71,8 @@ namespace JlMetroidvaniaProject.MapManagement
                 m_boxCollider.size = properties.m_boxSizes[index];
                 m_circleCollider.radius = properties._thickness * 0.5f;
 
-                gameObject.SetActive(true);
+                // gameObject.SetActive(true);
+                gameObject.SetActive(properties.m_overlapGrounds[index]);
             }
         }
 

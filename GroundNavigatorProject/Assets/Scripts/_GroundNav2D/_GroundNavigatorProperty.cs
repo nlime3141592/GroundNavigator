@@ -15,6 +15,7 @@ namespace JlMetroidvaniaProject.MapManagement
         public List<float> m_eulerAngles;
         public List<Vector2> m_boxSizes;
         public List<Transform> m_childJoints;
+        public List<bool> m_overlapGrounds;
 
         public _GroundNavigatorProperty()
         {
@@ -22,6 +23,7 @@ namespace JlMetroidvaniaProject.MapManagement
             m_positions = new List<Vector2>();
             m_eulerAngles = new List<float>();
             m_boxSizes = new List<Vector2>();
+            m_overlapGrounds = new List<bool>();
         }
 
         public void Calculate(Transform joints, float thickness)
@@ -36,6 +38,7 @@ namespace JlMetroidvaniaProject.MapManagement
                 m_eulerAngles.Clear();
                 m_boxSizes.Clear();
                 m_childJoints.Clear();
+                m_overlapGrounds.Clear();
                 m_count = 0;
                 return;
             }
@@ -49,6 +52,7 @@ namespace JlMetroidvaniaProject.MapManagement
             m_positions._CheckCapacity(m_count);
             m_eulerAngles._CheckCapacity(m_count);
             m_boxSizes._CheckCapacity(m_count);
+            m_overlapGrounds._CheckCapacity(m_count);
 
             // 1. position setting
             // joint positions
@@ -146,6 +150,52 @@ namespace JlMetroidvaniaProject.MapManagement
 
                 m_boxSizes[idx_j] = new Vector2(width, height);
                 // m_boxSizes[idx_j] = new Vector2(x, y);
+            }
+
+            // 4. overlap settings
+            m_overlapGrounds[0] = true;
+            if(m_count > 2)
+                m_overlapGrounds[1] = true;
+            // joint overlap
+            for(int i = 1; i < jCount; i++)
+            {
+                bool isOverlap = false;
+
+                for(int j = 0; j < i; j++)
+                {
+                    int idx_j_base = 2 * i;
+                    int idx_j_before = 2 * j;
+
+                    isOverlap |= m_positions[idx_j_base] == m_positions[idx_j_before];
+
+                    if(isOverlap)
+                        break;
+                }
+
+                m_overlapGrounds[2 * i] = !isOverlap;
+            }
+            // plain overlap
+            for(int i = 1; i < pCount; i++)
+            {
+                bool isOverlap = false;
+
+                for(int j = 0; j < i; j++)
+                {
+                    int idx_p_base = 2 * i + 1;
+                    int idx_p_before = 2 * j + 1;
+
+                    bool _b = true;
+                    _b &= m_positions[idx_p_base] == m_positions[idx_p_before];
+                    _b &= m_eulerAngles[idx_p_base] == m_eulerAngles[idx_p_before];
+                    _b &= m_boxSizes[idx_p_base] == m_boxSizes[idx_p_before];
+
+                    isOverlap |= _b;
+                    
+                    if(isOverlap)
+                        break;
+                }
+
+                m_overlapGrounds[2 * i + 1] = !isOverlap;
             }
         }
     }
