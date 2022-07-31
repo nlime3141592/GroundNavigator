@@ -74,7 +74,11 @@ namespace JlMetroidvaniaProject.MapManagement
 
         protected override void OnDrawGizmo()
         {
+            Debug.Log(string.Format("can navigate: {0}", CanNavigate()));
             if(!gizmoEnable)
+                return;
+
+            if(!CanNavigate())
                 return;
 
             Gizmos.color = gizmoColor;

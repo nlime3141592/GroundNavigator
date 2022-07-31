@@ -120,6 +120,9 @@ namespace JlMetroidvaniaProject.MapManagement
             if(!gizmoEnable)
                 return;
 
+            if(!CanNavigate())
+                return;
+
             Gizmos.color = gizmoColor;
 
             if(jointShape == JointShape.Circle)

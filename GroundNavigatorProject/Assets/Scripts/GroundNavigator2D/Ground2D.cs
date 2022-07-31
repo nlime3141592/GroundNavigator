@@ -12,6 +12,7 @@ namespace JlMetroidvaniaProject.MapManagement
 
         private GroundNavigator2D m_navigator;
         private GroundNavigatorProperty2D m_properties;
+        private bool m_initialized = false;
 
         private void Reset()
         {
@@ -35,6 +36,11 @@ namespace JlMetroidvaniaProject.MapManagement
         {
             if(IsPlaying())
                 return;
+
+            if(!m_initialized)
+            {
+                OnInitialize();
+            }
 
             if(transform.hasChanged)
             {
@@ -65,6 +71,8 @@ namespace JlMetroidvaniaProject.MapManagement
 
         protected virtual void OnInitialize()
         {
+            m_initialized = true;
+
             GroundNavigator2D nav = GetComponentInParent<GroundNavigator2D>();
 
             if(nav != null)
