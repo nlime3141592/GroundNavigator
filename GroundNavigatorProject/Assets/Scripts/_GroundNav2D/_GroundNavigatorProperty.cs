@@ -126,17 +126,11 @@ namespace JlMetroidvaniaProject.MapManagement
                 int idx_l = idx_j - 1;
                 int idx_r = idx_j + 1;
 
-                float angle_l = m_eulerAngles[idx_l] + 90.0f;
-                float angle_r = m_eulerAngles[idx_r] + 90.0f;
+                float angle = m_eulerAngles[idx_r] - m_eulerAngles[idx_l];
 
-                while(angle_l < 0.0f) angle_l += 360.0f;
-                while(angle_r < 0.0f) angle_r += 360.0f;
-
-                float angle = angle_l - angle_r;
-
-                if(angle < 0.0f) angle = -angle;
-                if(angle > 180.0f) angle = 360.0f - angle;
-
+                while(angle < -180.0f) angle += 360.0f;
+                while(angle > 180.0f) angle -= 360.0f;
+                if(angle < 0.0f) angle *= -1.0f;
                 angle *= Mathf.Deg2Rad;
 
                 float width = thickness * Mathf.Sqrt(2 * (1 - Mathf.Cos(angle))) * 0.5f;

@@ -8,6 +8,9 @@ namespace System.Collections.Generic
 
             for(int i = currentCount; i < targetCapacity; i++)
                 array.Add(default(T));
+
+            while(array.Count > targetCapacity)
+                array.RemoveAt(targetCapacity);
         }
     }
 }
