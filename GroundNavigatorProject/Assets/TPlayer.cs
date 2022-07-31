@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JlMetroidvaniaProject.MapManagement;
 
 public class TPlayer : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class TPlayer : MonoBehaviour
 
         if(hit)
         {
-            GroundJoint joint;
-            bool canGetJoint = hit.collider.TryGetComponent<GroundJoint>(out joint);
+            GroundJoint2D joint;
+            bool canGetJoint = hit.collider.TryGetComponent<GroundJoint2D>(out joint);
 
             Debug.Log(string.Format("canGetJoint: {0}", canGetJoint));
 
